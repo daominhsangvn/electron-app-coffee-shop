@@ -45,7 +45,7 @@ app.on('ready', function() {
   eapp.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
   eapp.use(express.static(eAppPath));
 
-  eapp.get('/**', function (req, res){
+  eapp.get('/', function (req, res){
     res.sendFile("index.html");
   });
 

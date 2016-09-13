@@ -7,14 +7,12 @@ module.exports = {
     'angular-local-storage',
     'angular-messages',
     // 'angular-mock',
-    'angular-promise-buttons',
     'angular-sanitize',
     'angular-translate',
     'angular-translate-loader-partial',
     'angular-ui-bootstrap',
     'angular-ui-router',
     'angularjs-toaster',
-    'ng-file-upload',
     'oclazyload'
   ],
   modules:[
@@ -28,9 +26,7 @@ module.exports = {
     'ngSanitize',
     'pascalprecht.translate',
     'toaster',
-    'ngFileUpload',
     'ui.bootstrap',
-    'angularPromiseButtons',
     'oc.lazyLoad'
   ]
 };

@@ -1,0 +1,17 @@
+<div class="upload-progress">
+  <div class="modal-body">
+    <ul>
+      <li ng-repeat="file in files">
+        <p class="file-name" ng-bind="file.file.name"></p>
+        <uib-progressbar
+          value="file.percentage"
+          type="{{file.isUploading ? 'info' : file.isProgressing ? 'warning' : file.isDone ? 'success' : file.isFailed ? 'danger' : 'info'}}"><span
+          ng-bind="file.isUploading ? file.percentage + '%' : file.isProgressing ? 'Progressing...' : 'Done!'"></span>
+        </uib-progressbar>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="close(true)"><i class="fa fa-times"></i> Cancel</button>
+  </div>
+</div>

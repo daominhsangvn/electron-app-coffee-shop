@@ -56,12 +56,11 @@ $fa-font-path: "./../../assets/fonts";
 }
 
 // Animate.css
-@import './../../../node_modules/animate.css/animate.css';
+@import '~animate.css/animate.css';
 
-// Toaster
-@import '~angularjs-toaster/toaster';
+// ngPromiseButton
+@import './ngPromiseButton';
 
-@import './../vendors/angular-promise-buttons/ngPromiseButtons';
 @import './variables';
 @import "./main";
 @import "./utilities";

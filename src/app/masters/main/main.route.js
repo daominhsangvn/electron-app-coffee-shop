@@ -7,6 +7,7 @@ export default ($stateProvider) => {
       template: '<main-master></main-master>',
       resolve: {
         // Lazy load component
+        // http://embed.plnkr.co/gLFtn6/
         components: ($q, $ocLazyLoad)=> {
           'ngInject';
           let deferred = $q.defer();

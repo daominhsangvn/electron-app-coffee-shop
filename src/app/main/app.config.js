@@ -9,8 +9,7 @@ export default ($stateProvider,
                 $translatePartialLoaderProvider,
                 AppSettingsProvider,
                 $urlRouterProvider,
-                localStorageServiceProvider,
-                angularPromiseButtonsProvider) => {
+                localStorageServiceProvider) => {
   // Route Configuration
   $locationProvider.html5Mode(true);
 
@@ -31,24 +30,7 @@ export default ($stateProvider,
   $urlRouterProvider.otherwise('/main/home');
 
   // Localstorage key prefix
-  localStorageServiceProvider.setPrefix('123');
-
-
-  ///////////////////////////////////////////////////////////
-  /////////////// PROMISE BUTTONS CONFIGURATION /////////////
-  //////////////////////////////////////////////////////////
-
-  angularPromiseButtonsProvider.extendConfig({
-    spinnerTpl: '<span class="btn-spinner"></span>',
-    disableBtn: true,
-    btnLoadingClass: 'is-loading',
-    addClassToCurrentBtnOnly: false,
-    disableCurrentBtnOnly: false
-  });
-
-  ///////////////////////////////////////////////////////////
-  /////////////// PROMISE BUTTONS CONFIGURATION /////////////
-  //////////////////////////////////////////////////////////
+  localStorageServiceProvider.setPrefix('NOIS');
 
 
   ///////////////////////////////////////////////////////////
@@ -156,7 +138,7 @@ export default ($stateProvider,
   //
   // // Default settings
   // // set app name & logo (used in loader, sidemenu, login pages, etc)
-  // AppSettingsProvider.setName('123');
+  // AppSettingsProvider.setName('NOIS');
   // AppSettingsProvider.setLogo('assets/img/logo.png');
   // // set current version of app (shown in footer)
   // AppSettingsProvider.setVersion('1.0.0');
