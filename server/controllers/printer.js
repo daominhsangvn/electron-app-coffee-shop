@@ -1,11 +1,11 @@
-var printer = require("printer");
-
+// var printer = require("printer");
+//
 module.exports = {
   list: function(req, res) {
-    var printers = printer.getPrinters();
+    // var printers = printer.getPrinters();
     res.send({
       success: true,
-      data: printers
+      // data: printers
     });
   }
 };

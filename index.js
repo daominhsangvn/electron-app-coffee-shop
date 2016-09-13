@@ -2,12 +2,6 @@ const path = require('path');
 const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
-const express = require("express");
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const eapp = express();
-const port = 23423;
-const eAppPath = path.join(__dirname, 'dist');
 
 // Report crashes to our server.
 electron.crashReporter.start({
@@ -38,19 +32,11 @@ app.on('ready', function() {
     nodeIntegration: false
   });
 
-  // Config
-  eapp.set('port', port);
-  eapp.use(cors());
-  eapp.use(bodyParser.json({limit: '50mb'}));
-  eapp.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-  eapp.use(express.static(eAppPath));
-
-  eapp.get('/', function (req, res){
-    res.sendFile("index.html");
-  });
+  var mainApp = require('./server');
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`http://localhost:${port}`);
+  console.log(`http://localhost:${mainApp.port}`);
+  mainWindow.loadURL(`http://localhost:${mainApp.port}`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

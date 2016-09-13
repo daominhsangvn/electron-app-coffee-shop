@@ -7,6 +7,7 @@ var fs = require('fs');
 var methodOverride = require('method-override');
 var cors = require('cors');
 var _ = require('lodash');
+var port = 9000;
 
 global.ROOTPATH = __dirname;
 
@@ -20,13 +21,13 @@ Db(function() {
   var app = express();
 
   // Config
-  app.set('port', 9000);
+  app.set('port', port);
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(methodOverride());
   app.use(cors());
-  app.use(express.static(path.join(__dirname, 'client')));
+  app.use(express.static(path.join(__dirname, 'dist')));
 
   RouteConfig(app);
 
@@ -61,6 +62,10 @@ Db(function() {
   });
 
 });
+
+module.exports = {
+  port: port
+};
 
 //// Feed control sequences
 //  CTL_LF: 			[ 0x0a ],						// Print and line feed
