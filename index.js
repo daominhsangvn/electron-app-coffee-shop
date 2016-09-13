@@ -25,29 +25,35 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-  // Create the browser window and disable integration with node
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    nodeIntegration: false
-  });
 
+  // start web server
   var mainApp = require('./server');
 
-  // and load the index.html of the app.
-  console.log(`http://localhost:${mainApp.port}`);
-  mainWindow.loadURL(`http://localhost:${mainApp.port}`);
+  // wait for 100ms before start the electron app
+  setTimeout(function(){
+    // Create the browser window and disable integration with node
+    mainWindow = new BrowserWindow({
+      width: 800,
+      height: 600,
+      nodeIntegration: false,
+      frame: true, // close/minimize/maximize
+      resizable: true,
+    });
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+    // and load the index.html of the app.
+    mainWindow.loadURL(`http://localhost:${mainApp.port}`);
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+
+    // Emitted when the window is closed.
+    mainWindow.on('closed', function() {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      mainWindow = null;
+    });
+  }, 100);
 });
 
 process.on('uncaughtException', function (err){

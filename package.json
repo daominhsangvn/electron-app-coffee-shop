@@ -61,7 +61,8 @@
     "deploy:production": "node deploy production",
     "build:deploy:nois": "npm run build:nois && node deploy nois",
     "build:deploy:staging": "npm run build:staging && node deploy staging",
-    "build:deploy:production": "npm run build:production && node deploy production"
+    "build:deploy:production": "npm run build:production && node deploy production",
+    "electron": "electron ."
   },
   "dependencies": {
     "angular": "^1.5.8",
