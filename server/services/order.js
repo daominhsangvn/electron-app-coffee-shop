@@ -1,14 +1,14 @@
-var Order = require('./../models/order');
-var ProductInOrder = require('./../models/productInOrder');
-var Promise = require('promise');
+var dbContext = require('./../db')();
 var _ = require('lodash');
+var Promise = require('promise');
+var db = dbContext.product;
 module.exports = {
   list: function (page, per_page, filter, sort){
     filter = filter || {};
     return new Promise(function (resolve, reject) {
       // Count all documents in the datastore
       var total = 0;
-      Order.count({}, function(err, count) {
+      db.count({}, function(err, count) {
         total = count;
         //var filterObj = {};
         //if(filter && filter.length > 0) {
@@ -19,7 +19,7 @@ module.exports = {
         //  };
         //}
 
-        var queries = Order;
+        var queries = db;
 
         if(!_.isEmpty(filter)) {
           queries = queries.where('name', new RegExp(filter, 'gi'));
@@ -57,44 +57,14 @@ module.exports = {
   },
 
   create: function(doc) {
-    return new Promise(function(done, fail) {
-
-      var createProductInOrderPromise = [];
-      var products = doc.products;
-      delete doc.products;
-
-      var newModel = new Order(doc);
-
+    return new Promise(function(resolve, reject) {
       // Create Order
-      newModel.save(function(err, newOrder) {
+      db.save(doc, function(err, newOrder) {
         if(err) {
           reject(err);
         }
         else {
-          // Create ProductInOrder
-          _.each(products, function(el) {
-            createProductInOrderPromise.push(new Promise(function(resolve, reject) {
-              new ProductInOrder({
-                product: el.productId,
-                price: el.price,
-                order: newOrder.id,
-                quantity: el.qty
-              }).save(function(err, newDoc) {
-                if(err) {
-                  reject(err);
-                }
-                else {
-                  resolve(newDoc);
-                }
-              });
-            }));
-          });
-
-          Promise.all(createProductInOrderPromise).then(function() {
-            done(newOrder);
-          }, function(err) {
-            fail(err);
-          })
+          resolve(newOrder);
         }
       });
     });
@@ -102,7 +72,7 @@ module.exports = {
 
   update: function(id, doc) {
     return new Promise(function(resolve, reject) {
-      Order.findByIdAndUpdate(id, {$set: doc}, function(err) {
+      db.update({_id: id}, {$set: doc}, function(err) {
         if(err) {
           reject(err);
         }
@@ -115,7 +85,7 @@ module.exports = {
 
   delete: function(id) {
     return new Promise(function(resolve, reject) {
-      Order.findByIdAndRemove(id, function(err, doc) {
+      db.remove({_id: id}, function(err, doc) {
         if(err) {
           reject(err);
         }
@@ -148,7 +118,7 @@ module.exports = {
 
   isDeletable(orderId){
     return new Promise(function (resolve, reject){
-      Order.findOne({_id: orderId}, function (err, doc){
+      db.findOne({_id: orderId}, function (err, doc){
         if (err) {
           reject('Error');
         }

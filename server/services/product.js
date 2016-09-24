@@ -1,13 +1,14 @@
-var Product = require('./../models/product');
-var Promise = require('promise');
+var dbContext = require('./../db')();
 var _ = require('lodash');
+var Promise = require('promise');
+var db = dbContext.product;
 module.exports = {
   list: function(page, per_page, filter, sort) {
     filter = filter || {};
     return new Promise(function(resolve, reject) {
       // Count all documents in the datastore
       var total = 0;
-      Product.count({}, function(err, count) {
+      db.count({}, function(err, count) {
         total = count;
         //var filterObj = {};
         //if(filter && filter.length > 0) {
@@ -18,7 +19,7 @@ module.exports = {
         //  };
         //}
 
-        var queries = Product;
+        var queries = db;
 
         queries = queries.find(filter);
 
@@ -50,9 +51,7 @@ module.exports = {
 
   create: function(doc) {
     return new Promise(function(resolve, reject) {
-      var newModel = new Product(doc);
-
-      newModel.save(function(err, newDoc) {
+      db.insert(doc, function(err, newDoc) {
         if(err) {
           reject(err);
         }
@@ -65,7 +64,7 @@ module.exports = {
 
   update: function(id, doc) {
     return new Promise(function(resolve, reject) {
-      Product.findByIdAndUpdate(id, {$set: doc}, function(err) {
+      db.update({_id: id}, {$set: doc}, function(err) {
         if(err) {
           reject(err);
         }
@@ -78,7 +77,7 @@ module.exports = {
 
   delete: function(id) {
     return new Promise(function(resolve, reject) {
-      Product.findByIdAndRemove(id, function(err, doc) {
+      db.remove({_id: id}, function(err, doc) {
         if(err) {
           reject(err);
         }
@@ -92,7 +91,7 @@ module.exports = {
 
   details: function(id) {
     return new Promise(function(resolve, reject) {
-      Product
+      db
         .findOne({_id: id})
         .populate('category unit productsInOrder') // Include
         .exec(function(err, doc) {
@@ -108,7 +107,7 @@ module.exports = {
 
   isDeletable(productId){
     return new Promise(function(resolve, reject) {
-      Product
+      db
         .findOne({_id: productId})
         .populate('category unit productsInOrder') // Include
         .exec(function(err, doc) {

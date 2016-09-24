@@ -13,55 +13,53 @@ global.ROOTPATH = __dirname;
 
 var util = require('./server/util');
 var RouteConfig = require('./server/routes');
-var Db = require('./server/db');
+var DbContext = require('./server/db');
 
-Db(function() {
+var dbContext = DbContext();
+// Init express
+var app = express();
 
-  // Init express
-  var app = express();
+// Config
+app.set('port', port);
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(methodOverride());
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'dist')));
 
-  // Config
-  app.set('port', port);
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(bodyParser.json());
-  app.use(cookieParser());
-  app.use(methodOverride());
-  app.use(cors());
-  app.use(express.static(path.join(__dirname, 'dist')));
+RouteConfig(app);
 
-  RouteConfig(app);
-
-  //var printer = require("printer");
-  //var printData =
-  //  [
-  //    0x1b, 0x40, // Clear data in buffer and reset modes
-  //    0x1b, 0x2d, 0x01, // underline
-  //    0x1b, 0x45, 0x01 // Bold font ON
-  //  ]
-  //    .concat("qwertyuiopasdfghjklzxcvbnm qwerty".toBytes());
-  //
-  //
-  //printData = printData.concat([0x0a, 0x0a]);
-  //printData = printData.concat([0x01B, 0x64, 10]); // print
-  //printer.printDirect({
-  //  data: new Buffer(printData)
-  //  //data: new Buffer(fs.readFileSync(__dirname + '/server/test.txt', 'utf-8'))//.data.toString('ascii', 0, data.length)
-  //  , printer: 'POS58 10.0.0.6'
-  //  , type: 'RAW'
-  //  , success: function (jobID){
-  //    console.log("sent to printer with ID: " + jobID);
-  //  }
-  //  , error: function (err){
-  //    console.log(err);
-  //  }
-  //});
+//var printer = require("printer");
+//var printData =
+//  [
+//    0x1b, 0x40, // Clear data in buffer and reset modes
+//    0x1b, 0x2d, 0x01, // underline
+//    0x1b, 0x45, 0x01 // Bold font ON
+//  ]
+//    .concat("qwertyuiopasdfghjklzxcvbnm qwerty".toBytes());
+//
+//
+//printData = printData.concat([0x0a, 0x0a]);
+//printData = printData.concat([0x01B, 0x64, 10]); // print
+//printer.printDirect({
+//  data: new Buffer(printData)
+//  //data: new Buffer(fs.readFileSync(__dirname + '/server/test.txt', 'utf-8'))//.data.toString('ascii', 0, data.length)
+//  , printer: 'POS58 10.0.0.6'
+//  , type: 'RAW'
+//  , success: function (jobID){
+//    console.log("sent to printer with ID: " + jobID);
+//  }
+//  , error: function (err){
+//    console.log(err);
+//  }
+//});
 
 
-  app.listen(app.get('port'), function() {
-    console.log('Express server listening on port ' + app.get('port'));
-  });
-
+app.listen(app.get('port'), function () {
+  console.log('Express server listening on port ' + app.get('port'));
 });
+
 
 module.exports = {
   port: port

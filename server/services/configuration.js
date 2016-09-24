@@ -1,13 +1,14 @@
-var Configuration = require('./../models/configuration');
-var Promise = require('promise');
+var dbContext = require('./../db')();
 var _ = require('lodash');
+var Promise = require('promise');
+var db = dbContext.configuration;
 module.exports = {
   list: function (page, per_page, filter, sort){
     filter = filter || {};
     return new Promise(function (resolve, reject){
       // Count all documents in the datastore
       var total = 0;
-      Configuration.count({}, function (err, count){
+      db.count({}, function (err, count){
         total = count;
         //var filterObj = {};
         //if (filter && filter.length > 0) {
@@ -18,7 +19,7 @@ module.exports = {
         //  };
         //}
 
-        var queries = Configuration;
+        var queries = db;
 
         if(!_.isEmpty(filter)) {
           queries = queries.where('name', new RegExp(filter, 'gi'));
@@ -50,9 +51,7 @@ module.exports = {
 
   create: function (doc){
     return new Promise(function (resolve, reject){
-      var newModel = new Configuration(doc);
-
-      newModel.save(function(err, newDoc) {
+      db.insert(doc, function(err, newDoc) {
         if(err) {
           reject(err);
         }
@@ -65,7 +64,7 @@ module.exports = {
 
   update: function (id, doc){
     return new Promise(function (resolve, reject){
-      Configuration.findByIdAndUpdate(id, {$set: doc}, function(err) {
+      db.update({_id: id}, {$set: doc}, function(err) {
         if(err) {
           reject(err);
         }
@@ -78,7 +77,7 @@ module.exports = {
 
   delete: function (id){
     return new Promise(function (resolve, reject){
-      Configuration.findByIdAndRemove(id, function(err) {
+      db.remove({_id: id}, function(err) {
         if(err) {
           reject(err);
         }
@@ -91,7 +90,7 @@ module.exports = {
 
   details: function (id){
     return new Promise(function (resolve, reject){
-      Configuration.findOne({_id: id}, function(err, doc) {
+      db.findOne({_id: id}, function(err, doc) {
         if(err) {
           reject(err);
         }

@@ -3,11 +3,11 @@ export default class AppNgTranslateLoaderProvider {
     this.cached = {};
   }
 
-  /*@ngInject*/
   $get($q, $http, $timeout) {
+    'ngInject';
     let $this = this;
     let request, translations, deferred;
-    return function (options) {
+    return (options) => {
       if (request) {
         $timeout.cancel(request);
         deferred.reject();
