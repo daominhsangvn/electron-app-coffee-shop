@@ -1,15 +1,14 @@
 module.exports = {
   vendors: [
-    'angular-animate',
-    'angular-breadcrumb',
+    // 'angular-animate',
     'angular-cookies',
     'angular-loading-bar',
     'angular-local-storage',
-    'angular-messages',
+    // 'angular-messages',
     // 'angular-mock',
     'angular-sanitize',
     'angular-translate',
-    'angular-translate-loader-partial',
+    'angular-translate-storage-cookie',
     'angular-ui-bootstrap',
     'angular-ui-router',
     'angularjs-toaster',
@@ -17,16 +16,20 @@ module.exports = {
   ],
   modules:[
     'ui.router',
-    'ngAnimate',
-    'ncy-angular-breadcrumb',
+    // 'ngAnimate',
     'ngCookies',
     'angular-loading-bar',
     'LocalStorageModule',
-    'ngMessages',
+    // 'ngMessages',
     'ngSanitize',
     'pascalprecht.translate',
     'toaster',
     'ui.bootstrap',
     'oc.lazyLoad'
+  ],
+  lib: [
+    'jquery',
+    'lodash',
+    'angular'
   ]
 };

@@ -55,20 +55,9 @@ $fa-font-path: "./../../assets/fonts";
   direction: ltr;
 }
 
-// Animate.css
-@import '~animate.css/animate.css';
-
-// ngPromiseButton
-@import './ngPromiseButton';
+// Toaster
+@import '~angularjs-toaster/toaster';
 
 @import './variables';
 @import "./main";
 @import "./utilities";
-@import "./../masters/auth/auth.style";
-@import "./../masters/common/common.style";
-@import "./../masters/main/main.style";
-
-@import "./../components/configuration/configuration.style";
-@import "./../components/searchHeader/searchHeader.style";
-@import "./../components/sideBar/sideBar.style";
-@import "./../components/topNav/topNav.style";

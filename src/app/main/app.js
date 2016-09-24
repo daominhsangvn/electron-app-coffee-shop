@@ -10,10 +10,10 @@ import AppCores from './../core';
 import AppServices from './../services';
 
 /* MASTER PAGES */
-import AppMasterPages from './../masters';
+import AppMasterPages from './masters';
 
 /* APP PROVIDERS */
-import AppProviders from './../providers';
+import AppProviders from './../core/providers';
 
 /* APP PAGES */
 import AppMainPages from './pages';

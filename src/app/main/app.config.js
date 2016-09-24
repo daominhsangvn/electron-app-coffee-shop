@@ -2,11 +2,9 @@
 export default ($stateProvider,
                 $locationProvider,
                 $httpProvider,
-                $breadcrumbProvider,
                 cfpLoadingBarProvider,
                 $provide,
                 $translateProvider,
-                $translatePartialLoaderProvider,
                 AppSettingsProvider,
                 $urlRouterProvider,
                 localStorageServiceProvider) => {
@@ -64,21 +62,6 @@ export default ($stateProvider,
   /////////////// END DECORATE $STATE SERVICE ///////////////
   //////////////////////////////////////////////////////////
 
-
-  ///////////////////////////////////////////////////////////
-  ///////////////// BREADCRUMB CONFIGURATION ///////////////
-  //////////////////////////////////////////////////////////
-
-  $breadcrumbProvider.setOptions({
-    prefixStateName: 'app.main.home',
-    templateUrl: 'app/core/data/templates/breadcrumbs.html'
-  });
-
-  ///////////////////////////////////////////////////////////
-  /////////////// END BREADCRUMB CONFIGURATION //////////////
-  //////////////////////////////////////////////////////////
-
-
   ///////////////////////////////////////////////////////////
   //////////////// LOADING BAR CONFIGURATION ///////////////
   //////////////////////////////////////////////////////////
@@ -92,64 +75,62 @@ export default ($stateProvider,
   //////////////////////////////////////////////////////////
 
 
-
-
   ///////////////////////////////////////////////////////////
   ////////////// MULTI-LANGUAGE CONFIGURATION //////////////
   //////////////////////////////////////////////////////////
 
-  // $translateProvider.useLoader('$translatePartialLoader', {
-  //   urlTemplate: '{part}/il8n/{lang}.json'
-  // });
-  //
-  // $translatePartialLoaderProvider.addPart('app/main');
-  //
-  // // make sure all values used in translate are sanitized for security
-  // $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-  //
-  // // cache translation files to save load on server
-  // $translateProvider.useLoaderCache(true);
-  //
-  // // setup available languages in translate
-  // var languageKeys = [],
-  //   APP_LANGUAGES = [{
-  //     name: 'LANGUAGES.ENGLISH',
-  //     key: 'en'
-  //   }];
-  //
-  //
-  // _.each(APP_LANGUAGES, (lang) => {
-  //   languageKeys.push(lang.key);
-  // });
-  //
-  // /**
-  //  *  try to detect the users language by checking the following
-  //  *      navigator.language
-  //  *      navigator.browserLanguage
-  //  *      navigator.systemLanguage
-  //  *      navigator.userLanguage
-  //  */
-  // $translateProvider
-  //   .registerAvailableLanguageKeys(languageKeys, {
-  //     'en_US': 'en',
-  //     'en_UK': 'en'
-  //   })
-  //   .use('en');
-  //
-  // // Default settings
-  // // set app name & logo (used in loader, sidemenu, login pages, etc)
-  // AppSettingsProvider.setName('NOIS');
-  // AppSettingsProvider.setLogo('assets/img/logo.png');
-  // // set current version of app (shown in footer)
-  // AppSettingsProvider.setVersion('1.0.0');
-  //
-  // // setup available languages
-  // _.each(APP_LANGUAGES, (lang) => {
-  //   AppSettingsProvider.addLanguage({
-  //     name: lang.name,
-  //     key: lang.key
-  //   });
-  // });
+  $translateProvider.preferredLanguage('en');
+  $translateProvider.useLoader('ngTranslateLoader');
+  $translateProvider.useCookieStorage();
+
+  // make sure all values used in translate are sanitized for security
+  $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+
+  // setup available languages in translate
+  var languageKeys = [],
+    APP_LANGUAGES = [
+      {
+        name: 'LANGUAGES.ENGLISH',
+        key: 'en'
+      },
+      {
+        name: 'LANGUAGES.VIETNAMESE',
+        key: 'vi'
+      }];
+
+
+  _.each(APP_LANGUAGES, (lang) => {
+    languageKeys.push(lang.key);
+  });
+
+  /**
+   *  try to detect the users language by checking the following
+   *      navigator.language
+   *      navigator.browserLanguage
+   *      navigator.systemLanguage
+   *      navigator.userLanguage
+   */
+  $translateProvider
+    .registerAvailableLanguageKeys(languageKeys, {
+      'en_US': 'en',
+      'en_UK': 'en'
+    })
+    .use('en');
+
+  // Default settings
+  // set app name & logo (used in loader, sidemenu, login pages, etc)
+  AppSettingsProvider.setName('NOIS');
+  AppSettingsProvider.setLogo('assets/img/logo.png');
+  // set current version of app (shown in footer)
+  AppSettingsProvider.setVersion('1.0.0');
+
+  // setup available languages
+  _.each(APP_LANGUAGES, (lang) => {
+    AppSettingsProvider.addLanguage({
+      name: lang.name,
+      key: lang.key
+    });
+  });
 
   ///////////////////////////////////////////////////////////
   //////////// END MULTI-LANGUAGE CONFIGURATION ////////////

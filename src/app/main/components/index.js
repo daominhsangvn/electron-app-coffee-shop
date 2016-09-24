@@ -1,5 +1,3 @@
-
-
 import AppMainFlotComponent from './flot';
 import AppMainVectorMapComponent from './vectorMap';
 

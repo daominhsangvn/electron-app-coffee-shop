@@ -1,6 +1,9 @@
 /* Core styles */
 @import './../core/scss/index';
 
+/* VENDOR PAGES*/
+@import "./../vendors/index";
+
 body{
   > div[ui-view]{
     height: inherit;
@@ -11,6 +14,11 @@ body{
 app {
   @extend body !optional;
 }
+
+/* MASTER PAGES*/
+@import "./masters/auth/auth.style";
+@import "./masters/common/common.style";
+@import "./masters/main/main.style";
 
 /* Components */
 @import './components/index';

@@ -11,7 +11,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const CommonsPlugin = new require("webpack/lib/optimize/CommonsChunkPlugin");
+const i18nBundlePlugin = require('./i18n-bundle-plugin');
 /*
  * Webpack Constants
  */
@@ -51,12 +52,7 @@ module.exports = {
    * See: http://webpack.github.io/docs/configuration.html#entry
    */
   entry: {
-    'lib': [
-      'jquery',
-      'moment',
-      'lodash',
-      'angular'
-    ],
+    'lib': appVendor.lib,
     'vendor': appVendor.vendors,
     'main': './src/main.browser.js'
   },
@@ -82,7 +78,8 @@ module.exports = {
     modulesDirectories: ['node_modules'],
 
     alias: {
-      jquery: require.resolve('jquery') // make jquery global
+      jquery: require.resolve('jquery'), // make jquery global
+      'app': path.join(__dirname, '../src/app')
     }
   },
 
@@ -169,7 +166,16 @@ module.exports = {
       },
 
       {test: /\.(svg|woff|woff2|ttf|eot)$/, loader: "file?name=/assets/fonts/[name].[ext]"},
-      {test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: "file?name=/assets/images/[name].[ext]"}
+      {test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: "file?name=/assets/images/[name].[ext]"},
+
+      {
+        test: /il8n\/.*\.json$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'json-loader',
+          loader: 'json-loader'
+        })
+      }
     ]
 
   },
@@ -250,7 +256,13 @@ module.exports = {
       headTags: require('./head-config.common')
     }),
 
+    new i18nBundlePlugin({
+      base: 'src/app',
+      // languages: ['en', 'vi'],
+      out: 'assets/languages'
+    }),
 
+    // https://webpack.github.io/docs/list-of-plugins.html#ProvidePlugin
     new webpack.ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',
@@ -258,6 +270,12 @@ module.exports = {
     }),
 
     new ExtractTextPlugin("assets/css/styles.[hash].css"), // extract inline-css to file
+
+    // Prevent external plugin to append existing library on the chunk. e.g: prevent ng-table to append angular lib into chunk file
+    new CommonsPlugin({
+      minChunks: 3,
+      name: "lib"
+    })
     // new webpack.optimize.CommonsChunkPlugin({names: ['lib', 'vendor', 'main'], minChunks: Infinity}),
     // new webpack.optimize.OccurrenceOrderPlugin(true),
     // Automatically move all modules defined outside of application directory to vendor bundle.

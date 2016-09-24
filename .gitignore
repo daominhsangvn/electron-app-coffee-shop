@@ -43,14 +43,12 @@ npm-debug.log
 
 # Dist #
 /dist
-/electron-dist
 /public/__build__/
 /src/*/__build__/
 /__build__/**
 /public/dist/
 /src/*/dist/
 /dist/**
-/electron-dist/**
 .webpack.json
 
 # Doc #
