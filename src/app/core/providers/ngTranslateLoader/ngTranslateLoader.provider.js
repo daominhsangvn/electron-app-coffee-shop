@@ -20,7 +20,7 @@ export default class AppNgTranslateLoaderProvider {
             .success((resp)=> {
               $this.cached[options.key] = translations = resp;
               deferred.resolve(translations);
-            }, (err)=> {
+            }, ()=> {
               deferred.reject();
             });
         }, 100);

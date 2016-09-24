@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 /*@ngInject*/
 export default ($stateProvider,
                 $locationProvider,

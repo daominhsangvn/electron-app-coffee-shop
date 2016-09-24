@@ -16,7 +16,7 @@ export default (UserContext, $rootScope, $location, $templateCache) => {
   UserContext.loadFromLocal();
 
   // Bootstrap 4 hacks
-  $templateCache.put("uib/template/progressbar/progressbar.html",`
+  $templateCache.put('uib/template/progressbar/progressbar.html',`
     <div>
       <div class="text-xs-center" id="example-caption-3" ng-transclude></div>
       <progress class="progress progress-striped" ng-class="type && 'progress-' + type" value="{{value}}" max="{{max}}"></progress>
