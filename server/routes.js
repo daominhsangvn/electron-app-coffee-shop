@@ -9,7 +9,12 @@ var configController = require('./controllers/configuration');
 var printerController = require('./controllers/printer');
 var accountController = require('./controllers/account');
 
-module.exports = function (app){
+module.exports = function (app) {
+  // ---------------------------------------------------------
+  // route middleware to authenticate and check token
+  // ---------------------------------------------------------
+  app.use(accountController.authGuard);
+
   // Account routes
   app.post('/api/login', [accountController.login]);
 
