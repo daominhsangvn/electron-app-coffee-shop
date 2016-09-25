@@ -1,6 +1,35 @@
 var nedb = require('nedb');
 var _ = require('lodash');
+var crypto = require('crypto');
 var databaseInstance;
+
+/**
+ * hash password with sha512.
+ * @function
+ * @param {string} password - List of required fields.
+ * @param {string} salt - Data to be validated.
+ */
+var sha512 = function (password, salt) {
+  var hash = crypto.createHmac('sha512', salt);
+  /** Hashing algorithm sha512 */
+  hash.update(password);
+  var value = hash.digest('hex');
+  return {
+    salt: salt,
+    passwordHash: value
+  };
+};
+
+function saltHashPassword(userpassword) {
+  var salt = 'SangDepTrai';
+  /** Gives us salt of length 16 */
+  var passwordData = sha512(userpassword, salt);
+  return passwordData.passwordHash;
+  // console.log('UserPassword = ' + userpassword);
+  // console.log('Passwordhash = ' + passwordData.passwordHash);
+  // console.log('\nSalt = ' + passwordData.salt);
+}
+
 
 module.exports = function () {
   if (!databaseInstance) {
@@ -22,39 +51,39 @@ module.exports = function () {
 
     // Init configuration data
     databaseInstance.configuration.find({}, function (err, result) {
-        if (result.length === 0) {
-          var seedData = [
-            {
-              name: 'SETTING.PRINTER',
-              value: 'POS58 10.0.0.6',
-              field: 'printer'
-            },
-            {
-              name: 'SETTING.SHOP.NAME',
-              value: 'Tra Sua BiBi',
-              field: 'shopName'
-            },
-            {
-              name: 'SETTING.SHOP.ADDRESS',
-              value: 'Tra Sua BiBi Address',
-              field: 'shopAddress'
-            },
-            {
-              name: 'SETTING.SHOP.PHONE',
-              value: '112233',
-              field: 'shopPhone'
-            }
-          ];
-          databaseInstance.configuration.insert(seedData);
-        }
-      });
+      if (result.length === 0) {
+        var seedData = [
+          {
+            name: 'SETTING.PRINTER',
+            value: 'POS58 10.0.0.6',
+            field: 'printer'
+          },
+          {
+            name: 'SETTING.SHOP.NAME',
+            value: 'Tra Sua BiBi',
+            field: 'shopName'
+          },
+          {
+            name: 'SETTING.SHOP.ADDRESS',
+            value: 'Tra Sua BiBi Address',
+            field: 'shopAddress'
+          },
+          {
+            name: 'SETTING.SHOP.PHONE',
+            value: '112233',
+            field: 'shopPhone'
+          }
+        ];
+        databaseInstance.configuration.insert(seedData);
+      }
+    });
 
     // Init Administrator user
     databaseInstance.user.findOne({userName: 'Administrator'}, function (err, result) {
       if (!result) {
         databaseInstance.user.insert({
           userName: 'Administrator',
-          password: '123456987@'
+          password: saltHashPassword('123456987@')
         });
       }
     });
