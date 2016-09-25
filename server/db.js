@@ -11,6 +11,9 @@ module.exports = function () {
       product: new nedb({filename: "db/product.db", autoload: true}),
       table: new nedb({filename: "db/table.db", autoload: true}),
       order: new nedb({filename: "db/order.db", autoload: true}),
+      productInOrder: new nedb({filename: "db/productInOrder.db", autoload: true}),
+      productInInvoice: new nedb({filename: "db/pdocutInInvoice.db", autoload: true}),
+      user: new nedb({filename: "db/user.db", autoload: true}),
       invoice: new nedb({filename: "db/invoice.db", autoload: true}),
       configuration: new nedb({filename: "db/configuration.db", autoload: true})
     };
@@ -42,13 +45,19 @@ module.exports = function () {
               field: 'shopPhone'
             }
           ];
-
-          _.forEach(seedData, function (sd) {
-            databaseInstance.configuration.insert(sd);
-          });
-
+          databaseInstance.configuration.insert(seedData);
         }
       });
+
+    // Init Administrator user
+    databaseInstance.user.findOne({userName: 'Administrator'}, function (err, result) {
+      if (!result) {
+        databaseInstance.user.insert({
+          userName: 'Administrator',
+          password: '123456987@'
+        });
+      }
+    });
   }
   return databaseInstance;
 };

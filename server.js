@@ -21,6 +21,7 @@ var app = express();
 
 // Config
 app.set('port', port);
+app.set('superSecret', 'SangDepTrai'); // secret variable
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());

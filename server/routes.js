@@ -7,8 +7,12 @@ var invoiceController = require('./controllers/invoice');
 var tableController = require('./controllers/table');
 var configController = require('./controllers/configuration');
 var printerController = require('./controllers/printer');
+var accountController = require('./controllers/account');
 
 module.exports = function (app){
+  // Account routes
+  app.post('/api/login', [accountController.login]);
+
   // Unit routes
   app.post('/api/unit/list', [unitController.list]);
   app.post('/api/unit', [unitController.create]);
