@@ -62,19 +62,9 @@
     "build:deploy:nois": "npm run build:nois && node deploy nois",
     "build:deploy:staging": "npm run build:staging && node deploy staging",
     "build:deploy:production": "npm run build:production && node deploy production",
-    "electron": "electron . --enable-logging --remote-debugging-port=9222",
-    "electron:dev": "electron ./electron --enable-logging --remote-debugging-port=9222",
-    "electron:build": "electron-packager ./electron CoffeeShop --platform darwin --arch=all --version 1.0.0 --out ./electron-dist --overwrite",
-    "electron-dist": "build -mwl --x64 --ia32"
-  },
-  "build": {
-    "appId": "com.example.electron-boilerplate",
-    "build.mac.category": "your.app.category.type",
-    "dmg": {
-      "title": "Coffee Shop",
-      "icon": "resources/osx/dmg-icon.icns",
-      "background": "resources/osx/dmg-background.png"
-    }
+    "copy:electron": "cpx 'electron/**' dist",
+    "copy:server": "cpx 'server/**' dist/server -C && cpx 'server.js' dist",
+    "copy": "npm run copy:electron && npm run copy:server"
   },
   "dependencies": {
     "angular": "^1.5.8",
@@ -129,6 +119,7 @@
     "babel-runtime": "^6.6.1",
     "compression-webpack-plugin": "^0.3.1",
     "copy-webpack-plugin": "^3.0.1",
+    "cpx": "^1.5.0",
     "css-loader": "^0.24.0",
     "cssnano": "^3.7.7",
     "eslint": "^3.4.0",
@@ -172,10 +163,7 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^2.1.0-beta.2",
     "webpack-md5-hash": "^0.0.5",
-    "webpack-merge": "^0.14.1",
-    "electron-builder": "^6.7.3",
-    "electron-packager": "^8.0.0",
-    "electron-prebuilt": "^1.3.5"
+    "webpack-merge": "^0.14.1"
   },
   "repository": {
     "type": "git",
