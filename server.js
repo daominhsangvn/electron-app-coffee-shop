@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(methodOverride());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(__dirname));
 
 RouteConfig(app);
 

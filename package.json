@@ -64,7 +64,9 @@
     "build:deploy:production": "npm run build:production && node deploy production",
     "copy:electron": "cpx 'electron/**' dist",
     "copy:server": "cpx 'server/**' dist/server -C && cpx 'server.js' dist",
-    "copy": "npm run copy:electron && npm run copy:server"
+    "copy": "npm run copy:electron && npm run copy:server",
+    "electron": "electron ./dist --enable-logging --remote-debugging-port=9222",
+    "electron:build": "electron-packager ./dist CoffeeShop --platform darwin --arch=all --version 1.0.0 --out ./electron-dist --overwrite"
   },
   "dependencies": {
     "angular": "^1.5.8",
@@ -105,7 +107,9 @@
     "method-override": "^2.3.6",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "promise": "^7.1.1",
+    "request": "^2.75.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.8",

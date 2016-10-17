@@ -1,0 +1,34 @@
+{
+  "name": "coffee-shop",
+  "version": "1.0.0",
+  "description": "Coffee Shop",
+  "keywords": [],
+  "author": "Shawn Dao <sang.dao@newoceaninfosys.com.com>",
+  "homepage": "https://gitlab.newoceaninfosys.com/sang.dao/webapp-starter-angular-bootstrap",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.15.0",
+    "moment": "^2.14.1",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "crypto": "0.0.3",
+    "jsonwebtoken": "^7.1.9",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.6.0",
+    "morgan": "^1.7.0",
+    "nedb": "^1.8.0",
+    "promise": "^7.1.1",
+    "request": "^2.75.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^6.7.3",
+    "electron-packager": "^8.0.0",
+    "electron-prebuilt": "^1.3.5"
+  },
+  "engines": {
+    "node": ">= 6.2.2",
+    "npm": ">= 3.9.5"
+  }
+}
