@@ -1,10 +1,10 @@
-import template from './topNav.template.html';
+import templateUrl from './topNav.template.html';
 import Controller from './topNav.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

@@ -1,10 +1,10 @@
-import template from './sign-up.template.html';
+import templateUrl from './sign-up.template.html';
 import Controller from './sign-up.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

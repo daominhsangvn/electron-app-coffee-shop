@@ -1,10 +1,10 @@
-import template from './home.template.html';
+import templateUrl from './home.template.html';
 import Controller from './home.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

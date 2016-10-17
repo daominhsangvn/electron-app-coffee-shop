@@ -1,10 +1,10 @@
-import template from './configuration.template.html';
+import templateUrl from './configuration.template.html';
 import Controller from './configuration.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

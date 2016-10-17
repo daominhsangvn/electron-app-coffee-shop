@@ -1,4 +1,9 @@
 <side-bar class="sidebar-panel"></side-bar>
+<div class="off-canvas-overlay ng-scope"
+     toggle-class
+     events="['click']"
+     toggle-element="'app .app'"
+     class-list="[['-', 'offscreen', 'move-right']]"></div>
 <div class="main-panel">
   <top-nav class="header navbar"></top-nav>
   <div class="main-content" ui-view>

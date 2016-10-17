@@ -1,10 +1,10 @@
-import template from './sideBar.template.html';
+import templateUrl from './sideBar.template.html';
 import Controller from './sideBar.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

@@ -1,11 +1,28 @@
-<div class="brand"><a href="javascript:;" data-toggle="sidebar" class="toggle-offscreen hidden-lg-up"><i
-  class="material-icons">menu</i> </a> <a class="brand-logo"><img class="expanding-hidden" src="assets/img/logo.png"
-                                                                  alt=""> </a></div>
+<div class="brand">
+  <a href="javascript:;"
+     toggle-class
+     events="['click']"
+     toggle-element="'app .app'"
+     class-list="[['-', 'offscreen', 'move-right']]"
+     class="toggle-offscreen hidden-lg-up">
+    <i class="material-icons">menu</i> </a>
+  <a class="brand-logo">
+    <img class="expanding-hidden" src="assets/img/logo.png" alt="">
+  </a>
+</div>
 <div class="nav-profile dropdown" uib-dropdown>
   <a href="javascript:;" class="dropdown-toggle" uib-dropdown-toggle>
-    <div class="user-image"><img src="assets/img/avatar.jpg" class="avatar img-circle" alt="user" title="user"></div>
-    <div class="user-info expanding-hidden">Betty Simmons
-      <small class="bold">Administrator</small>
+    <div class="user-image">
+      <img user-avatar="" user-id="{{$ctrl.info.id}}" alt="user" title="user" class="avatar img-circle">
+    </div>
+    <div class="user-info expanding-hidden">
+      <span ng-if="$ctrl.info.firstName && $ctrl.info.lastName"
+            ng-bind="$ctrl.info.firstName"></span>
+      <span ng-if="$ctrl.info.firstName && $ctrl.info.lastName"
+            ng-bind="$ctrl.info.lastName"></span>
+      <span ng-if="!$ctrl.info.firstName || !$ctrl.info.lastName"
+            ng-bind="$ctrl.info.email"></span>
+      <small class="bold" ng-if="$ctrl.info.userRole" ng-bind="$ctrl.info.userRole"></small>
     </div>
   </a>
   <div class="dropdown-menu" uib-dropdown-menu>
@@ -13,7 +30,8 @@
     <a class="dropdown-item" href="javascript:;">Upgrade</a>
     <a class="dropdown-item" href="javascript:;"><span>Notifications</span> <span class="tag bg-primary">34</span></a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="javascript:;">Help</a> <a class="dropdown-item" href="#">Logout</a></div>
+    <a class="dropdown-item" href="javascript:;">Help</a> <a class="dropdown-item" href="javascript:;"
+                                                             ng-click="$ctrl.logOut()">Logout</a></div>
 </div>
 <nav><p class="nav-title">NAVIGATION</p>
   <ul class="nav">

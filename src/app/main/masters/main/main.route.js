@@ -15,13 +15,11 @@ export default ($stateProvider) => {
           // Lazy load child components of main layout
           // e.g: TopNav, SideBar
           require.ensure([
-            'app/main/components/searchHeader',
             'app/main/components/topNav',
             'app/main/components/sideBar',
             'app/core/directives/appClass',
             'app/core/directives/toggleClass'
           ], (require) => {
-            let searchHeaderModule = require('app/main/components/searchHeader');
             let topNavModule = require('app/main/components/topNav');
             let sideBarModule = require('app/main/components/sideBar');
             let appClassDirectiveModule = require('app/core/directives/appClass');
@@ -29,7 +27,6 @@ export default ($stateProvider) => {
             $ocLazyLoad.load([
               {name: appClassDirectiveModule.default.name},
               {name: toggleClassDirectiveModule.default.name},
-              {name: searchHeaderModule.default.name},
               {name: topNavModule.default.name},
               {name: sideBarModule.default.name}
             ]);

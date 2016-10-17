@@ -8,7 +8,7 @@ function hasProcessFlag(flag) {
 }
 
 function isWebpackDevServer() {
-  return process.argv[1] && !!(/webpack-dev-server$/.exec(process.argv[1]));
+  return process.argv[1] && !!(/webpack-dev-server/.exec(process.argv[1]));
 }
 
 function root(args) {

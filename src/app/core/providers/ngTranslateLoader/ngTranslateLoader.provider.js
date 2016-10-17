@@ -7,7 +7,7 @@ export default class AppNgTranslateLoaderProvider {
     'ngInject';
     let $this = this;
     let request, translations, deferred;
-    return (options) => {
+    return function (options) {
       if (request) {
         $timeout.cancel(request);
         deferred.reject();

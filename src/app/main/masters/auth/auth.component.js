@@ -1,9 +1,9 @@
-import template from './auth.template.html';
+import templateUrl from './auth.template.html';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template
+  templateUrl
 };
 
 export default Component;

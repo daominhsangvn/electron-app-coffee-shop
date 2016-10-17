@@ -1,4 +1,4 @@
-import Template from './uploadProgress.template.html';
+import templateUrl from './uploadProgress.template.html';
 import * as _ from "lodash";
 
 export default class Controller {
@@ -33,7 +33,7 @@ export default class Controller {
     let $this = this;
     this.modalInstance = this._$uibModal.open({
       animation: true,
-      template: Template,
+      templateUrl: templateUrl,
       keyboard: false, // stop ESC to close
       backdrop: 'static', // stop click to close
       controller: ($scope,

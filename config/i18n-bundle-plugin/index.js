@@ -2,8 +2,8 @@ const glob = require('glob');
 const path = require('path');
 const Promise = require('promise');
 const fs = require('fs');
-const Chunk = require("webpack/lib/Chunk");
 const _ = require('lodash');
+const jsonminify = require("jsonminify");
 
 function mergeOptions(a, b) {
   if (!b) return a;
@@ -39,7 +39,7 @@ function exportFile(compilation, language) {
       let langJsonObject = JSON.parse(fs.readFileSync(langPath, 'utf8'));
       Object.assign(result, langJsonObject);
     });
-    let json = JSON.stringify(result); //convert it back to json
+    let json = jsonminify(JSON.stringify(result)); //convert it back to json
     let filePath = [this.options.out, language.lang + '.json'].join('/');
     // Pushes the content of the given filename to the compilation assets
     // compilation.fileDependencies.push(filePath);

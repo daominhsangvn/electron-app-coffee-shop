@@ -89,7 +89,45 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js',
 
     library: 'ac_[name]',
-    libraryTarget: 'var',
+    libraryTarget: 'var'
+  },
+
+  module: {
+    loaders:[
+      /*
+       * Json loader support for *.json files.
+       *
+       * See: https://github.com/webpack/json-loader
+       */
+      {
+        test: /(app).*\.json$/,
+        // loader: 'json-loader'
+        loader: 'file?name=[hash].[ext]',
+        exclude: [/node_modules/]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json',
+        exclude: [/(app)/]
+        // loader: 'file?name=[hash].[ext]'
+      },
+
+      /* Raw loader support for *.html
+       * Returns file content as string
+       *
+       * See: https://github.com/webpack/raw-loader
+       */
+      {
+        test: /(app).*\.html$/,
+        loader: 'file-loader?name=[hash].[ext]',
+        exclude: [helpers.root('src/index.html'), /node_modules/]
+      },
+      {
+        test: /\.html$/,
+        loader: 'raw-loader',
+        exclude: [helpers.root('src/index.html'), /(app)/]
+      }
+    ]
   },
 
   plugins: [

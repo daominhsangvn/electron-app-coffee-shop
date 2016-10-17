@@ -35,36 +35,55 @@ function clearOldFiles() {
         if (err) throw err;
         // get needed files for delete only (front-end files)
         let deleteFiles = list.filter((f)=> {
-          return /^(vendor|main|lib|\d+)\..*\.(bundle|chunk)/gi.test(f.name);
+          return /^(vendor|main|lib|\d+)\..*\.(bundle|chunk)/gi.test(f.name) || f.name === 'index.html';
         }).map((f)=> {
           return [ftpInfo.dir, f.name].join('/');
         });
 
-        // get css file path
-        let cssFolderPath = [ftpInfo.dir, 'assets', 'css'].join('/');
-        c.list(cssFolderPath, (err, list) => {
-          if (err) throw err;
-          let cssFile = list.filter((f)=> {
-            return /^styles/gi.test(f.name);
-          }).map((f)=> {
-            return [cssFolderPath, f.name].join('/');
-          });
-          deleteFiles = deleteFiles.concat(cssFile);
-          let deletePromises = [];
-          deleteFiles.forEach((fp)=> {
-            deletePromises.push(new Promise((r)=> {
-              c.delete(fp, (error)=> {
-                r();
-              })
-            }));
-          });
-          Promise.all(deletePromises)
-            .then(() => {
-              console.log('Deleting old files...Done!');
-              resolve();
-            });
-          c.end();
+        let deletePromises = [];
+
+        // Delete js files
+        deleteFiles.forEach((fp)=> {
+          deletePromises.push(new Promise((r)=> {
+            c.delete(fp, (error)=> {
+              r();
+            })
+          }));
         });
+
+        // delete assets templates/json
+        let assetsCssFolderPath = [ftpInfo.dir, 'assets', 'css'].join('/');
+
+        deletePromises.push(new Promise((r)=> {
+          c.rmdir(assetsCssFolderPath, true, (error)=> {
+            r();
+          })
+        }));
+
+        // delete assets templates
+        let assetsTemplatesFolderPath = [ftpInfo.dir, 'assets', 'templates'].join('/');
+
+        deletePromises.push(new Promise((r)=> {
+          c.rmdir(assetsTemplatesFolderPath, true, (error)=> {
+            r();
+          })
+        }));
+
+        // delete assets json
+        let assetsJsonFolderPath = [ftpInfo.dir, 'assets', 'json'].join('/');
+        deletePromises.push(new Promise((r)=> {
+          c.rmdir(assetsJsonFolderPath, true, (error)=> {
+            r();
+          })
+        }));
+
+        Promise.all(deletePromises)
+          .then(() => {
+            console.log('Deleting old files...Done!');
+            c.end();
+            c.destroy();
+            resolve();
+          });
       });
     });
     c.connect({
@@ -72,7 +91,7 @@ function clearOldFiles() {
       port: ftpInfo.port,
       user: ftpInfo.user,
       password: ftpInfo.password,
-      secure: true
+      secure: ftpInfo.secure
     });
   })
 }

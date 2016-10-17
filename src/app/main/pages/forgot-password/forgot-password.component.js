@@ -1,10 +1,10 @@
-import template from './forgot-password.template.html';
+import templateUrl from './forgot-password.template.html';
 import Controller from './forgot-password.controller';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template,
+  templateUrl,
   controller: Controller
 };
 

@@ -28,6 +28,9 @@ const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeJsonAssetsPlugin = require('./optimize-json-assets-webpack-plugin');
+// const CompressionPlugin = require('compression-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -99,16 +102,64 @@ module.exports = webpackMerge(commonConfig, {
 
   },
 
+  // module: {
+    // loaders: [
+    //   {
+    //     test: /app\.constant\.js$/,
+    //     loader: 'string-replace',
+    //     query: {
+    //       search: "domain\\:(\\s)?\\'.*\\'",
+    //       replace: 'domain: \'' + deployProfile.domain + '\'',
+    //       flags: 'gi'
+    //     }
+    //   }
+    // ]
+  // },
+
   module: {
     loaders: [
       {
-        test: /app\.constant\.js$/,
+        test: /app\.config\.js$/,
         loader: 'string-replace',
         query: {
           search: "domain\\:(\\s)?\\'.*\\'",
           replace: 'domain: \'' + deployProfile.domain + '\'',
           flags: 'gi'
         }
+      },
+
+      /*
+       * Json loader support for *.json files.
+       *
+       * See: https://github.com/webpack/json-loader
+       */
+      {
+        test: /(app).*\.json$/,
+        // loader: 'json-loader'
+        loader: 'file?name=/assets/json/[hash].[ext]',
+        exclude: [/node_modules/]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+        exclude: [/app/]
+        // loader: 'file?name=[hash].[ext]'
+      },
+
+      /* Raw loader support for *.html
+       * Returns file content as string
+       *
+       * See: https://github.com/webpack/raw-loader
+       */
+      {
+        test: /(app).*\.html$/,
+        loader: 'file-loader?name=/assets/templates/[hash].[ext]',
+        exclude: [helpers.root('src/index.html'), /node_modules/]
+      },
+      {
+        test: /\.html$/,
+        loader: 'raw-loader',
+        exclude: [helpers.root('src/index.html'), /app/]
       }
     ]
   },
@@ -195,10 +246,10 @@ module.exports = webpackMerge(commonConfig, {
      * See: http://webpack.github.io/docs/list-of-plugins.html#normalmodulereplacementplugin
      */
 
-    new NormalModuleReplacementPlugin(
-      /angular2-hmr/,
-      helpers.root('config/modules/angular2-hmr-prod.js')
-    ),
+    // new NormalModuleReplacementPlugin(
+    //   /angular2-hmr/,
+    //   helpers.root('config/modules/angular2-hmr-prod.js')
+    // ),
 
     /**
      * Plugin: IgnorePlugin
@@ -221,7 +272,17 @@ module.exports = webpackMerge(commonConfig, {
     //   regExp: /\.css$|\.html$|\.js$|\.map$/,
     //   threshold: 2 * 1024
     // })
-
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /styles.*\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: {removeAll: true } },
+      canPrint: true
+    }),
+    new OptimizeJsonAssetsPlugin({
+      assetNameRegExp: /assets\/.*\.json$/g,
+      jsonProcessor: require('jsonminify'),
+      canPrint: true
+    }),
   ],
 
   /**

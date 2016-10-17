@@ -1,9 +1,9 @@
-import template from './common.template.html';
+import templateUrl from './common.template.html';
 
 let Component = {
   restrict: 'E',
   bindings: {},
-  template
+  templateUrl
 };
 
 export default Component;

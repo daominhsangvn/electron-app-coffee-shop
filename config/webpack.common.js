@@ -113,16 +113,6 @@ module.exports = {
       },
 
       /*
-       * Json loader support for *.json files.
-       *
-       * See: https://github.com/webpack/json-loader
-       */
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-
-      /*
        * to string and css loader support for *.css files
        * Returns file content as string
        *
@@ -134,24 +124,6 @@ module.exports = {
           loader: 'to-string-loader!css-loader!resolve-url-loader'
         })
         // loaders: ['to-string-loader', 'css-loader', 'resolve-url-loader']
-      },
-
-      /* Raw loader support for *.html
-       * Returns file content as string
-       *
-       * See: https://github.com/webpack/raw-loader
-       */
-      {
-        test: /\.html$/,
-        loader: 'raw-loader',
-        exclude: [helpers.root('src/index.html')]
-      },
-
-      /* File loader for supporting images, for example, in CSS files.
-       */
-      {
-        test: /\.(jpg|png|gif)$/,
-        loader: 'file'
       },
 
       {
@@ -166,16 +138,7 @@ module.exports = {
       },
 
       {test: /\.(svg|woff|woff2|ttf|eot)$/, loader: "file?name=/assets/fonts/[name].[ext]"},
-      {test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: "file?name=/assets/images/[name].[ext]"},
-
-      {
-        test: /il8n\/.*\.json$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'json-loader',
-          loader: 'json-loader'
-        })
-      }
+      {test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: "file?name=/assets/images/[name].[ext]"}
     ]
 
   },
