@@ -8,14 +8,14 @@ export default class ProfileService {
   }
 
   get() {
-    return this._$http.get(this._appConstant.domain + '/api/V1/account/getuserinfo');
+    return this._$http.get(this._appConstant.domain + '/api/profile');
   }
 
   updateData() {
     return this.get()
       .success((userInfo) => {
         // save user info to localstorage
-        this._userContext.fillInfo(userInfo.data, true);
+        this._userContext.fillInfo(userInfo, true);
       });
   }
 

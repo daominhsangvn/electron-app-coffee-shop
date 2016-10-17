@@ -8,6 +8,7 @@ var tableController = require('./controllers/table');
 var configController = require('./controllers/configuration');
 var printerController = require('./controllers/printer');
 var accountController = require('./controllers/account');
+var profileController = require('./controllers/profile');
 
 module.exports = function (app) {
   // ---------------------------------------------------------
@@ -17,6 +18,9 @@ module.exports = function (app) {
 
   // Account routes
   app.post('/api/login', [accountController.login]);
+
+  // Profile routes
+  app.get('/api/profile', [profileController.userInfo]);
 
   // Unit routes
   app.post('/api/unit/list', [unitController.list]);

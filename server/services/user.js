@@ -150,5 +150,45 @@ module.exports = {
         }
       });
     });
+  },
+
+  findByEmailAndPassword: function(email, password){
+    /**
+     * hash password with sha512.
+     * @function
+     * @param {string} password - List of required fields.
+     * @param {string} salt - Data to be validated.
+     */
+    var sha512 = function (password, salt) {
+      var hash = crypto.createHmac('sha512', salt);
+      /** Hashing algorithm sha512 */
+      hash.update(password);
+      var value = hash.digest('hex');
+      return {
+        salt: salt,
+        passwordHash: value
+      };
+    };
+
+    function saltHashPassword(userpassword) {
+      var salt = 'SangDepTrai';
+      /** Gives us salt of length 16 */
+      var passwordData = sha512(userpassword, salt);
+      return passwordData.passwordHash;
+      // console.log('UserPassword = ' + userpassword);
+      // console.log('Passwordhash = ' + passwordData.passwordHash);
+      // console.log('\nSalt = ' + passwordData.salt);
+    }
+
+    return new Promise(function(resolve, reject) {
+      db.findOne({email: email, password: saltHashPassword(password)}, function(err, doc) {
+        if(err) {
+          reject(err);
+        }
+        else {
+          resolve(doc);
+        }
+      });
+    });
   }
 };

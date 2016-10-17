@@ -11,7 +11,7 @@ export default ($stateProvider,
                 $urlRouterProvider,
                 localStorageServiceProvider) => {
   // Route Configuration
-  $locationProvider.html5Mode(true);
+  // $locationProvider.html5Mode(true);
 
   $stateProvider
     .state('app', {
@@ -146,15 +146,14 @@ export default ($stateProvider,
   $httpProvider.interceptors.push(($q,
                                    toaster,
                                    AppConstant,
-                                   UserContext,
-                                   $injector) => {
+                                   UserContext) => {
     'ngInject';
 
     return {
       request: (config) => {
         var authData = UserContext.auth();
         if (!config.anonymous && authData && authData.token) {
-          config.headers['Authorization'] = 'Bearer ' + authData.token;
+          config.headers['x-access-token'] = authData.token;
         }
         return config;
       },
@@ -165,40 +164,40 @@ export default ($stateProvider,
         return $q.resolve(response);
       },
       responseError: (response) => {
-        var inflightAuthRequest = null;
-        let authData = UserContext.auth();
-        if (angular.isObject(response) && response.config && (response.config.url.indexOf(AppConstant.domain) > -1)) {
-          if (response.status === 400 && response.data != null) {
-            return $q.reject(response);
-          }
-          else if (response.status === 401 && authData && authData.refresh_token) {
-            var deferred = $q.defer();
-            if (!inflightAuthRequest) {
-              inflightAuthRequest = $injector.get('$http').post(AppConstant.domain + '/token', 'grant_type=refresh_token&refresh_token=' + authData.refresh_token, {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-              });
-            }
-            inflightAuthRequest.then((r)=> {
-              inflightAuthRequest = null;
-              if (r.data && r.data.access_token && r.data.refresh_token && r.data.expires_in) {
-                UserContext.setToken(r.data.access_token, r.data.refresh_token, true);
-                $injector.get('$http')(response.config).then((resp) => {
-                  deferred.resolve(resp);
-                }, ()=> {
-                  deferred.reject();
-                });
-              } else {
-                deferred.reject();
-              }
-            }, () => {
-              inflightAuthRequest = null;
-              deferred.reject();
-              UserContext.clearInfo();
-              $injector.get('$state').go('page.signin');
-            });
-            return deferred.promise;
-          }
-        }
+        // var inflightAuthRequest = null;
+        // let authData = UserContext.auth();
+        // if (angular.isObject(response) && response.config && (response.config.url.indexOf(AppConstant.domain) > -1)) {
+        //   if (response.status === 400 && response.data != null) {
+        //     return $q.reject(response);
+        //   }
+        //   else if (response.status === 401 && authData && authData.refresh_token) {
+        //     var deferred = $q.defer();
+        //     if (!inflightAuthRequest) {
+        //       inflightAuthRequest = $injector.get('$http').post(AppConstant.domain + '/token', 'grant_type=refresh_token&refresh_token=' + authData.refresh_token, {
+        //         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        //       });
+        //     }
+        //     inflightAuthRequest.then((r)=> {
+        //       inflightAuthRequest = null;
+        //       if (r.data && r.data.access_token && r.data.refresh_token && r.data.expires_in) {
+        //         UserContext.setToken(r.data.access_token, r.data.refresh_token, true);
+        //         $injector.get('$http')(response.config).then((resp) => {
+        //           deferred.resolve(resp);
+        //         }, ()=> {
+        //           deferred.reject();
+        //         });
+        //       } else {
+        //         deferred.reject();
+        //       }
+        //     }, () => {
+        //       inflightAuthRequest = null;
+        //       deferred.reject();
+        //       UserContext.clearInfo();
+        //       $injector.get('$state').go('page.signin');
+        //     });
+        //     return deferred.promise;
+        //   }
+        // }
 
         return $q.reject(response);
       }

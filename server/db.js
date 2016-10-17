@@ -82,7 +82,10 @@ module.exports = function () {
     databaseInstance.user.findOne({userName: 'Administrator'}, function (err, result) {
       if (!result) {
         databaseInstance.user.insert({
+          firstName: 'Sang',
+          lastName: 'Dao',
           userName: 'Administrator',
+          email: 'administrator@myapp.com',
           password: saltHashPassword('123456987@')
         });
       }

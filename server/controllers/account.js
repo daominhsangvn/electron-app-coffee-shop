@@ -4,9 +4,9 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 module.exports = {
   login: function (req, res) {
-    var userName = req.body.userName;
+    var email = req.body.email;
     var password = req.body.password;
-    userService.details(userName, password)
+    userService.findByEmailAndPassword(email, password)
       .then(function (result) {
         if (!result) {
           res.status(400);

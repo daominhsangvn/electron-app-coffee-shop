@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
 
 /*@ngInject*/
 export default class AuthenticationService {
@@ -10,32 +10,20 @@ export default class AuthenticationService {
     this._profileService = ProfileService;
   }
 
-  transformRequestHandler(obj) {
-    let str = [];
-    _.each(_.keys(obj), (p) => {
-      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-    });
-    return str.join('&');
-  }
-
-  login(userName, password, isRemembered) {
+  login(email, password, isRemembered) {
     let $this = this;
     let deferred = $this._$q.defer();
     let requestPayload = {
-      'username': userName,
-      'password': password,
-      'grant_type': 'password',
-      'client_id': $this._appConstant.client_id,
-      'client_secret': $this._appConstant.client_secret
+      'email': email,
+      'password': password
     };
 
     let config = {
       method: 'POST',
-      url: $this._appConstant.domain + '/token',
+      url: $this._appConstant.domain + '/api/login',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8'
       },
-      transformRequest: $this.transformRequestHandler,
       data: requestPayload,
       'anonymous': true
     };
@@ -43,7 +31,7 @@ export default class AuthenticationService {
     let success = (resp)=> {
       if (resp.data) {
         // Save access token and refresh token
-        $this._userContext.setToken(resp.data.access_token, resp.data.refresh_token, isRemembered);
+        $this._userContext.setToken(resp.data.access_token, isRemembered);
 
         $this._profileService.updateData()
           .then(() => {

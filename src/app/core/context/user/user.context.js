@@ -7,8 +7,7 @@ export default class UserContext {
     this._localStorageService = localStorageService;
     this._defaultAuthentication = {
       isAuth: true,
-      token: null,
-      refresh_token: null
+      token: null
     };
     this.authentication = this._defaultAuthentication;
     this.userData = null;
@@ -22,16 +21,14 @@ export default class UserContext {
     return this.authentication;
   }
 
-  setToken(token, refresh_token, rememberMe) {
+  setToken(token, rememberMe) {
     if (!token) {
       this.authentication.isAuth = false;
       this.authentication.token = undefined;
-      this.authentication.refresh_token = undefined;
       this.clearInfo();
     } else {
       this.authentication.isAuth = true;
       this.authentication.token = token;
-      this.authentication.refresh_token = refresh_token;
     }
     if (rememberMe) {
       this.saveLocal('auth', this.authentication);
@@ -50,7 +47,6 @@ export default class UserContext {
     this.userData = null;
     this._$rootScope.currentUser = null;
     this.authentication.token = null;
-    this.authentication.refresh_token = null;
     this.authentication.isAuth = false;
     this.saveLocal('auth', this.authentication);
     this.saveLocal('info', this.userData);
@@ -68,6 +64,6 @@ export default class UserContext {
     this.authentication = authData;
     this.userData = userData;
     this._$rootScope.currentUser = this.userData;
-    this.setToken(authData.token, authData.refresh_token, true);
+    this.setToken(authData.token, true);
   }
 }
